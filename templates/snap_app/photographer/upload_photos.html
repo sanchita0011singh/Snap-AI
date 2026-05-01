@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload_photos</title>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+{% include 'snap_app/common/common_css.html' %}
+
+<style>
+
+body{
+background:#f5f7ff;
+}
+
+.upload-card{
+max-width:600px;
+margin:auto;
+margin-top:60px;
+padding:30px;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(37,99,235,.15);
+background:white;
+border:1px solid rgba(99,102,241,.15);
+}
+
+/* Heading */
+.heading-theme{
+background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed);
+color:#fff;
+padding:12px;
+border-radius:8px;
+}
+
+/* Icons */
+.input-group-text{
+background:linear-gradient(90deg,#2563eb,#4f46e5);
+color:white;
+border:none;
+}
+
+/* Inputs */
+.form-control,
+.form-select{
+border:1px solid #dbeafe;
+box-shadow:none;
+}
+
+.form-control:focus,
+.form-select:focus{
+border-color:#6366f1;
+box-shadow:0 0 0 0.2rem rgba(99,102,241,.15);
+}
+
+/* Upload Button */
+.btn-primary{
+background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed);
+border:none;
+}
+
+.btn-primary:hover{
+background:linear-gradient(90deg,#1d4ed8,#4338ca,#6d28d9);
+}
+
+/* AI Button */
+.btn-info{
+background:linear-gradient(90deg,#06b6d4,#3b82f6);
+border:none;
+color:white;
+}
+
+.btn-info:hover{
+background:linear-gradient(90deg,#0891b2,#2563eb);
+color:white;
+}
+
+/* Suggestions */
+.list-group-item.active{
+background:linear-gradient(90deg,#2563eb,#6366f1);
+border:none;
+}
+
+</style>
+
+<script>
+
+function checkDigit(event)
+{
+let data = event.target.value
+event.target.value = data.replace(/[^0-9.]/g,'')
+}
+
+function amount(paymentType)
+{
+if(paymentType=="paid")
+{
+document.getElementById("divAmount").style.display="block";
+}
+
+if(paymentType=="free")
+{
+document.getElementById("divAmount").style.display="none";
+}
+}
+
+</script>
+
+</head>
+
+<body>
+
+{% include 'snap_app/photographer/photographer_header.html' %}
+
+<div class="main">
+<div class="container">
+
+<div class="upload-card">
+
+<h4 class="text-center mb-4 heading-theme">Upload Photos</h4>
+
+<form method="POST" action="/upload_photos/" enctype="multipart/form-data" novalidate class="needs-validation">
+
+{% csrf_token %}
+
+<!-- Category -->
+<div class="mb-3">
+<label class="form-label">Category</label>
+<div class="input-group">
+<span class="input-group-text"><i class="fa-solid fa-layer-group"></i></span>
+
+<select class="form-select" name="category">
+<option value="def">Select Category</option>
+
+{% for ct in ct_key %}
+<option value="{{ct.name}}">{{ct.name}}</option>
+{% endfor %}
+
+</select>
+</div>
+</div>
+
+<!-- Image -->
+<div class="mb-3">
+<label class="form-label">Upload Image</label>
+
+<div class="input-group">
+<span class="input-group-text"><i class="fa-solid fa-image"></i></span>
+
+<input type="file" class="form-control" name="photo" id="photo"
+required accept="image/*" onchange="handleImageUpload()">
+</div>
+
+<div id="image_preview_container" style="display:none; margin-top:15px;">
+<img id="image_preview" src="" style="max-width:100%; max-height:300px; border-radius:5px;">
+</div>
+
+</div>
+
+<!-- AI Button -->
+<div class="mb-3">
+<button type="button" class="btn btn-info w-100"
+id="generate_title_btn"
+onclick="generateTitleUsingAI()"
+style="display:none;">
+
+<i class="fas fa-sparkles"></i> Generate Title with AI
+
+</button>
+</div>
+
+<!-- Suggestions -->
+<div id="suggestions_container" style="display:none; margin-bottom:20px;">
+
+<label class="form-label"><strong>Suggested Titles</strong></label>
+
+<div id="titles_list" class="list-group"
+style="max-height:200px; overflow-y:auto;">
+
+</div>
+
+</div>
+
+<!-- Title -->
+<div class="mb-3">
+<label class="form-label">Title</label>
+
+<div class="input-group">
+<span class="input-group-text"><i class="fa-solid fa-heading"></i></span>
+
+<input type="text" class="form-control"
+name="title"
+id="title"
+placeholder="Enter photo title or select from AI Suggestions">
+
+</div>
+</div>
+
+<!-- Price Type -->
+<div class="mb-3">
+<label class="form-label">Price Type</label>
+
+<div class="input-group">
+<span class="input-group-text"><i class="fa-solid fa-image"></i></span>
+
+<select class="form-select" name="price_type"
+onchange="amount(this.value)" required>
+
+<option value="free">Select Type</option>
+<option value="free">Free</option>
+<option value="paid">Paid</option>
+
+</select>
+</div>
+</div>
+
+<!-- Price -->
+<div class="mb-3" id="divAmount" style="display:none;">
+
+<label class="form-label">Price</label>
+
+<div class="input-group">
+<span class="input-group-text">
+<i class="fa-solid fa-indian-rupee-sign"></i>
+</span>
+
+<input type="text"
+class="form-control"
+name="price"
+oninput="checkDigit(event)"
+value="00.0"
+placeholder="Enter amount">
+
+</div>
+</div>
+
+<!-- Description -->
+<div class="mb-3">
+
+<label class="form-label">Description</label>
+
+<div class="input-group">
+<span class="input-group-text">
+<i class="fa-solid fa-file-lines"></i>
+</span>
+
+<textarea class="form-control" rows="3" name="description"></textarea>
+
+</div>
+</div>
+
+<!-- Button -->
+<div class="text-center">
+<button type="submit" class="btn btn-primary w-100">
+Upload Photo
+</button>
+</div>
+
+</form>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+/* Preview */
+function handleImageUpload() {
+
+const imageInput = document.getElementById('photo');
+const previewContainer = document.getElementById('image_preview_container');
+const imagePreview = document.getElementById('image_preview');
+const generateBtn = document.getElementById('generate_title_btn');
+
+if (imageInput.files && imageInput.files[0]) {
+
+const reader = new FileReader();
+
+reader.onload = function(e) {
+imagePreview.src = e.target.result;
+previewContainer.style.display = 'block';
+generateBtn.style.display = 'block';
+};
+
+reader.readAsDataURL(imageInput.files[0]);
+
+}
+else{
+previewContainer.style.display = 'none';
+generateBtn.style.display = 'none';
+}
+
+}
+
+/* Generate AI */
+async function generateTitleUsingAI() {
+
+const imageInput = document.getElementById('photo');
+
+if (!imageInput.files || !imageInput.files[0]) {
+alert('Please select an image first');
+return;
+}
+
+const generateBtn = document.getElementById('generate_title_btn');
+const originalText = generateBtn.innerHTML;
+
+try{
+
+generateBtn.innerHTML =
+'<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+generateBtn.disabled = true;
+
+const formData = new FormData();
+formData.append('image', imageInput.files[0]);
+
+const response = await axios.post('{% url "generate_title_ai" %}', formData,{
+headers:{
+'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+'Content-Type':'multipart/form-data'
+}
+});
+
+const data = response.data;
+
+if(data.success && data.titles){
+displayTitleSuggestions(data.titles);
+}else{
+alert('Error generating titles');
+}
+
+}catch(error){
+
+alert('Error generating titles');
+
+}finally{
+
+generateBtn.innerHTML = originalText;
+generateBtn.disabled = false;
+
+}
+
+}
+
+/* Suggestions */
+function displayTitleSuggestions(titles){
+
+const suggestionsContainer =
+document.getElementById('suggestions_container');
+
+const titlesList =
+document.getElementById('titles_list');
+
+titlesList.innerHTML='';
+
+titles.forEach((title)=>{
+
+const btn = document.createElement('button');
+
+btn.type='button';
+btn.className='list-group-item list-group-item-action';
+btn.textContent=title;
+
+btn.onclick=function(){
+selectTitle(title);
+return false;
+};
+
+titlesList.appendChild(btn);
+
+});
+
+suggestionsContainer.style.display='block';
+
+}
+
+/* Select Title */
+function selectTitle(title){
+
+document.getElementById('title').value = title;
+
+const suggestions =
+document.querySelectorAll('#titles_list .list-group-item');
+
+suggestions.forEach(suggestion=>{
+
+if(suggestion.textContent===title){
+suggestion.classList.add('active');
+}else{
+suggestion.classList.remove('active');
+}
+
+});
+
+}
+
+</script>
+
+{% include 'snap_app/common/footer.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="{% static 'snap_app/js/custom_validation.js' %}"></script>
+
+</body>
+</html>

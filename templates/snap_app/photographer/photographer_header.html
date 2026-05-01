@@ -1,0 +1,179 @@
+<nav class="navbar navbar-dark fixed-top shadow nav-custom">
+
+<div class="container-fluid">
+
+<button class="navbar-toggler custom-toggler"
+type="button"
+data-bs-toggle="offcanvas"
+data-bs-target="#offcanvasDarkNavbar">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="offcanvas offcanvas-start custom-offcanvas"
+data-bs-backdrop="false"
+tabindex="-1"
+id="offcanvasDarkNavbar">
+
+<div class="offcanvas-header border-bottom">
+
+<h5 class="offcanvas-title text-white fw-bold">
+
+<i class="fa-solid fa-camera-retro me-2"></i>
+
+Hello Photographer
+
+</h5>
+
+<button type="button"
+class="btn-close btn-close-white"
+data-bs-dismiss="offcanvas">
+
+</button>
+
+</div>
+
+<div class="offcanvas-body">
+
+<ul class="navbar-nav flex-grow-1 pe-3 menu-list">
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/photographer_home/">
+<i class="fa-solid fa-house me-2"></i>
+Home
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/contact/">
+<i class="fa-solid fa-comment-dots me-2"></i>
+Contact
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/p_edit_profile/">
+<i class="fa-solid fa-user-pen me-2"></i>
+Edit Profile
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/photographer_UPI/">
+<i class="fa-solid fa-money-check-dollar me-2"></i>
+Add UPI Details
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/upload_photos/">
+<i class="fa-solid fa-cloud-arrow-up me-2"></i>
+Upload Photos
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/viewmypics/">
+<i class="fa-solid fa-images me-2"></i>
+View My Pics
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/photo_reset_password/">
+<i class="fa-solid fa-key me-2"></i>
+Reset Password
+</a>
+</li>
+
+<li class="nav-item mt-3">
+<a class="nav-link logout-btn" href="/photographer_logout/">
+<i class="fa-solid fa-right-from-bracket me-2"></i>
+Logout
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+<style>
+
+/* NAVBAR */
+.nav-custom{
+background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed);
+padding:10px 0;
+box-shadow:0 8px 25px rgba(37,99,235,.25);
+}
+
+/* TOGGLE */
+.custom-toggler{
+border:none;
+outline:none;
+}
+
+/* SIDEBAR */
+.custom-offcanvas{
+background:linear-gradient(135deg,#2563eb,#4f46e5,#7c3aed);
+width:300px;
+box-shadow:10px 0 30px rgba(0,0,0,.2);
+}
+
+/* HEADER */
+.offcanvas-header{
+border-color:rgba(255,255,255,.2)!important;
+}
+
+/* MENU */
+.menu-item{
+color:white;
+padding:13px 15px;
+border-radius:12px;
+font-size:16px;
+display:flex;
+align-items:center;
+transition:.3s;
+font-weight:500;
+}
+
+.menu-item i{
+font-size:18px;
+}
+
+/* HOVER */
+.menu-item:hover{
+background:rgba(255,255,255,.18);
+transform:translateX(6px);
+color:#fff;
+}
+
+/* LOGOUT */
+.logout-btn{
+background:linear-gradient(90deg,#ef4444,#dc2626);
+color:white;
+border-radius:12px;
+padding:13px;
+text-align:center;
+font-weight:600;
+transition:.3s;
+}
+
+.logout-btn:hover{
+background:linear-gradient(90deg,#dc2626,#b91c1c);
+transform:scale(1.03);
+color:#fff;
+}
+
+/* SPACING */
+.menu-list li{
+margin-bottom:10px;
+}
+
+</style>

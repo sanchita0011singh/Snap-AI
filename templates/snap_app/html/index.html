@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ z{%  include 'snap_app/common/common_css.html' %}
+
+ 
+<style>
+    .div-right{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+/* Animation */
+@keyframes floatCamera{
+    0%{
+        transform: translateY(0px) rotate(0deg);
+    }
+    50%{
+        transform: translateY(-25px) rotate(3deg);
+    }
+    100%{
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+ .flex-container{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        /* height:400px; */
+        /* background-color: rgb(189, 112, 112); */
+}
+.div-left{
+    width:60%;
+    height:100%;
+    /* background-color: rgb(111, 156, 156); */
+
+}
+.div-right{
+   width:62%;
+    padding:40px 40px;
+    animation: slideFade 1.5s ease;
+    
+    /* background-color: rgb(57, 61, 61); */
+    
+}
+ .div-left img{
+    display: flex;
+    height: 50%;
+    justify-content: center;
+
+    animation: floatCamera 4s ease-in-out infinite;
+ }
+    
+ .feedback-card {
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            background-color: #fff;
+            border: #6a11cb;
+         background-color: #ffffff;
+        }
+
+button{
+  background-color:  #2575fc;
+}
+
+ .feedback-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #0d6efd;
+        }
+
+ .stars i {
+            color: #ffc107;
+            font-size: 20px;
+        }
+        body{
+            background-color:#ffffff;
+            
+        }
+.div-left{
+    display: flex;
+    width: 40%;
+    padding:40px 40px;
+    animation: slideFade 1.5s ease;
+    margin: top 120px; ;
+}
+
+.div-left h2{
+    color: #1e66f5;
+    font-size: 46px;
+    margin-bottom:15px;
+}
+
+.div-left p{
+    font-size:28px;
+    line-height:1.6;
+    color:#333;
+}
+
+/* Animation */
+@keyframes slideFade{
+    from{
+        opacity:0;
+        transform: translateX(-50px);
+    }
+    to{
+        opacity:1;
+        transform: translateX(0);
+    }
+}
+body{
+    background:linear-gradient(135deg,#ffffff,#eef2ff,#f8fafc);
+}
+
+</style>
+
+
+</head>
+<body >
+    
+    <!-- <div class="container-fluid" style="background-color:#ffffff">
+   <h3 style="text-align: center; color:#D4AF37;; margin-bottom:0px ;" ><b>Redefining Photography with Intelligence 📸✨🤖</b></h3>
+    </div> -->
+    <div style="margin:0px;">
+    {%  include 'snap_app/common/header.html' %}
+    </div>
+    
+ <div class="main">
+        <div class="flex-container">
+            <div class="div-left">
+            
+            <div id="carouselExampleControlsNoTouching" data-bs-ride="carousel" data-bs-interval="2000" class="carousel slide" data-bs-touch="false" style="width: 100%; height:100%;">
+            <div class="carousel-inner">
+            <div class="carousel-item active">
+            <h2>Welcome to <h1 style="color: #0f317a; display: flex; justify-content:start;font-size:80px;">SnapAI</h1></h2>
+            <p>
+           SnapAI is a smart platform that connects users with professional photographers.
+            Easily discover, explore, and book photographers for your special moments.
+          </p>
+             </div>
+                 <!-- <div class="carousel-item">
+                    <img src="{% static 'snap_app/image/leftdiv.png' %}" class="d-block w-100" alt="...">
+                 </div>
+                  -->
+             </div>
+          
+     </div>
+               
+                    
+            </div>
+            
+        
+            <div class="div-right">
+           
+    <div id="carouselExampleFade"data-bs-ride="carousel" data-bs-interval="2000"  class="carousel slide carousel-fade">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'snap_app/image/1.png'   %}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'snap_app/image/2.png'    %}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'snap_app/image/3.png'   %}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+          
+     </div>
+                    
+            </div>
+            
+            </div>
+<div class="container py-5">
+
+  <h2 class="text-center top-title">
+    Top Photographers
+  </h2>
+
+  <div class="row g-4">
+
+    {% for p in top_key %}
+    <div class="col-md-6 col-lg-3">
+
+      <div class="card top-card h-100 text-center p-4">
+
+        <!-- Profile Image -->
+        <div class="profile-wrap">
+          <img src="/media/{{p.profile_pic}}" 
+               class="rounded-circle mx-auto profile-img">
+        </div>
+
+        <!-- Name -->
+        <h5 class="photographer-name">{{ p.name }}</h5>
+
+        <!-- Downloads -->
+        <p class="download-text">
+          📥 {{ p.total_downloads }} Downloads
+        </p>
+
+        <!-- Rank Badge -->
+        <span class="rank-badge">
+          Rank #{{ forloop.counter }}
+        </span>
+
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+<style>
+/* Section Title */
+.top-title{
+    font-weight:800;
+    font-size:42px;
+    color:#0f172a;
+    margin-bottom:55px;
+    position:relative;
+}
+
+.top-title::after{
+    content:'';
+    width:90px;
+    height:4px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    position:absolute;
+    left:50%;
+    bottom:-14px;
+    transform:translateX(-50%);
+    border-radius:20px;
+}
+
+/* Card */
+.top-card{
+    border:none;
+    border-radius:22px;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(12px);
+    box-shadow:0 15px 35px rgba(0,0,0,.06);
+    transition:.35s ease;
+    overflow:hidden;
+}
+
+.top-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 45px rgba(37,99,235,.18);
+}
+
+/* Image */
+.profile-wrap{
+    margin-bottom:16px;
+}
+
+.profile-img{
+    width:110px;
+    height:110px;
+    object-fit:cover;
+    border:4px solid #2563eb;
+    padding:4px;
+    box-shadow:0 10px 20px rgba(37,99,235,.15);
+}
+
+/* Name */
+.photographer-name{
+    font-weight:700;
+    font-size:20px;
+    color:#111827;
+    margin-bottom:10px;
+}
+
+/* Downloads */
+.download-text{
+    color:#6b7280;
+    font-size:15px;
+    margin-bottom:18px;
+}
+
+/* Badge */
+.rank-badge{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:40px;
+    font-size:14px;
+    font-weight:600;
+    color:#fff;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    box-shadow:0 8px 20px rgba(37,99,235,.2);
+}
+
+/* Responsive */
+@media(max-width:576px){
+
+.top-title{
+    font-size:30px;
+}
+
+.top-card{
+    padding:25px 15px !important;
+}
+
+.profile-img{
+    width:95px;
+    height:95px;
+}
+}
+</style>
+     <!-- Feedback display code start -->
+
+<div class="container py-5 feedback-section">
+
+    <h2 class="text-center feedback-title">
+        Loved by Our Clients
+    </h2>
+
+    <div id="feedbackCarousel" class="carousel slide" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+
+            {% for fobj in feed_key %}
+
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+                <div class="feedback-card text-center">
+
+                    <div class="feedback-img-wrap">
+                        <img src="/media/{{fobj.user.profile_pic}}" class="feedback-img">
+                    </div>
+
+                    <h5 class="client-name">
+                        {{fobj.user.name}}
+                    </h5>
+
+                    <div class="stars mb-3">
+                        ⭐ {{fobj.rating}}
+                    </div>
+
+                    <p class="feedback-text">
+                        Excellent service! The team was very professional
+                        and supportive. Highly recommended.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button"
+            data-bs-target="#feedbackCarousel"
+            data-bs-slide="prev">
+
+            <span class="carousel-control-prev-icon custom-arrow"></span>
+        </button>
+
+        <button class="carousel-control-next" type="button"
+            data-bs-target="#feedbackCarousel"
+            data-bs-slide="next">
+
+            <span class="carousel-control-next-icon custom-arrow"></span>
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Feedback display code ends -->
+
+<style>
+
+/* Section */
+.feedback-section{
+    background:linear-gradient(135deg,#ffffff,#eef2ff,#f8fafc);
+    border-radius:28px;
+    margin-top:40px;
+    margin-bottom:40px;
+    box-shadow:0 18px 45px rgba(37,99,235,.08);
+    padding:60px 25px !important;
+}
+
+/* Title */
+.feedback-title{
+    font-size:42px;
+    font-weight:800;
+    color:#0f172a;
+    margin-bottom:50px;
+    position:relative;
+}
+
+.feedback-title::after{
+    content:'';
+    width:90px;
+    height:4px;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    position:absolute;
+    left:50%;
+    bottom:-14px;
+    transform:translateX(-50%);
+    border-radius:20px;
+}
+
+/* Card */
+.feedback-card{
+    max-width:650px;
+    margin:auto;
+    background:rgba(255,255,255,.95);
+    padding:38px 30px;
+    border-radius:24px;
+    box-shadow:0 18px 40px rgba(0,0,0,.08);
+    transition:.35s ease;
+}
+
+.feedback-card:hover{
+    transform:translateY(-6px);
+}
+
+/* Image */
+.feedback-img-wrap{
+    margin-bottom:15px;
+}
+
+.feedback-img{
+    width:95px;
+    height:95px;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid #2563eb;
+    padding:4px;
+    box-shadow:0 10px 20px rgba(37,99,235,.15);
+}
+
+/* Name */
+.client-name{
+    font-size:24px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:8px;
+}
+
+/* Rating */
+.stars{
+    font-size:20px;
+    color:#f59e0b;
+    font-weight:600;
+}
+
+/* Text */
+.feedback-text{
+    font-size:17px;
+    color:#6b7280;
+    line-height:1.8;
+    margin:0;
+}
+
+/* Arrows */
+.custom-arrow{
+    background-color:#2563eb;
+    padding:18px;
+    border-radius:50%;
+    box-shadow:0 10px 20px rgba(37,99,235,.2);
+}
+
+/* Responsive */
+@media(max-width:576px){
+
+.feedback-title{
+    font-size:30px;
+}
+
+.feedback-card{
+    padding:25px 18px;
+}
+
+.feedback-img{
+    width:80px;
+    height:80px;
+}
+
+.client-name{
+    font-size:20px;
+}
+
+.feedback-text{
+    font-size:15px;
+}
+
+.custom-arrow{
+    padding:14px;
+}
+}
+
+</style>
+
+</div>
+    {% include 'snap_app/common/footer.html'  %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

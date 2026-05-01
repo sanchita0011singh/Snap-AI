@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report View</title>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% include 'snap_app/common/common_css.html' %}
+
+<style>
+body{
+    background:linear-gradient(135deg,#eef2f7,#dde7f2);
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* message */
+.alert{
+    width:90%;
+    max-width:700px;
+    margin:auto;
+    margin-top:20px;
+    border-radius:12px;
+}
+
+/* center card */
+.report-section{
+    padding:40px 15px;
+}
+
+.report-card{
+    max-width:760px;
+    margin:auto;
+    background:#fff;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+/* header */
+.report-header{
+    background:linear-gradient(90deg,#ff2d55,#ff4b2b);
+    padding:22px 30px;
+    color:#fff;
+}
+
+.report-header h3{
+    margin:0;
+    font-size:34px;
+    font-weight:700;
+}
+
+/* body */
+.report-body{
+    padding:35px;
+}
+
+.report-title{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:25px;
+    color:#111;
+}
+
+/* options */
+.reason-box{
+    border:1px solid #e2e2e2;
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    transition:.3s;
+    cursor:pointer;
+    background:#fff;
+}
+
+.reason-box:hover{
+    border-color:#ff2d55;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,0,0,.05);
+}
+
+.form-check{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.form-check-input{
+    width:20px;
+    height:20px;
+    margin:0;
+}
+
+.form-check-input:checked{
+    background-color:#ff2d55;
+    border-color:#ff2d55;
+}
+
+.form-check-label{
+    font-size:21px;
+    font-weight:600;
+    color:#222;
+}
+
+/* textarea */
+#description{
+    margin-top:18px;
+}
+
+#description textarea{
+    border-radius:14px;
+    padding:14px;
+    font-size:18px;
+    resize:none;
+}
+
+/* buttons */
+.btn-area{
+    margin-top:28px;
+    display:flex;
+    justify-content:flex-end;
+    gap:15px;
+}
+
+.btn-submit{
+    background:#ff2d55;
+    color:#fff;
+    border:none;
+    padding:14px 30px;
+    border-radius:12px;
+    font-size:20px;
+    font-weight:600;
+}
+
+.btn-submit:hover{
+    background:#e11d48;
+}
+
+.btn-cancel{
+    background:#6b7280;
+    color:#fff;
+    border:none;
+    padding:14px 30px;
+    border-radius:12px;
+    font-size:20px;
+    font-weight:600;
+}
+
+/* mobile */
+@media(max-width:768px){
+
+.report-header h3{
+    font-size:26px;
+}
+
+.report-body{
+    padding:22px;
+}
+
+.report-title{
+    font-size:22px;
+}
+
+.form-check-label{
+    font-size:17px;
+}
+
+.btn-submit,
+.btn-cancel{
+    font-size:16px;
+    padding:12px 18px;
+}
+}
+</style>
+
+<script>
+function showDescription(info)
+{
+    if(info==="other")
+        document.getElementById("description").style.display="block";
+    else
+        document.getElementById("description").style.display="none";
+}
+</script>
+
+</head>
+
+<body>
+
+{% include 'snap_app/user/user_header.html' %}
+
+{% for msg in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+<strong>{{ msg }}</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+
+<div class="report-section" style="margin-top: 2%;">
+
+<div class="report-card">
+
+<div class="report-header">
+<h3><i class="bi bi-flag-fill me-2"></i>Report Image</h3>
+</div>
+
+<div class="report-body">
+
+<form method="POST" action="/final_img_report/" novalidate class="needs-validation">
+{% csrf_token %}
+
+<input type="hidden" name="picid" value="{{pic_id}}">
+
+<div class="report-title">Select Reason</div>
+
+<label class="reason-box d-block">
+<div class="form-check">
+<input class="form-check-input" type="radio" name="reason"
+value="Prohibited Content"
+onclick="showDescription(this.value)">
+<span class="form-check-label">Prohibited Content</span>
+</div>
+</label>
+
+<label class="reason-box d-block">
+<div class="form-check">
+<input class="form-check-input" type="radio" name="reason"
+value="Copyright Violation"
+onclick="showDescription(this.value)">
+<span class="form-check-label">Copyright Violation</span>
+</div>
+</label>
+
+<label class="reason-box d-block">
+<div class="form-check">
+<input class="form-check-input" type="radio" name="reason"
+value="Violence or Harmful Content"
+onclick="showDescription(this.value)">
+<span class="form-check-label">Violence or Harmful Content</span>
+</div>
+</label>
+
+<label class="reason-box d-block">
+<div class="form-check">
+<input class="form-check-input" type="radio"
+name="reason"
+value="Spam or Misleading"
+onclick="showDescription(this.value)">
+<span class="form-check-label">Spam or Misleading</span>
+</div>
+</label>
+
+<label class="reason-box d-block">
+<div class="form-check">
+<input class="form-check-input" type="radio"
+name="reason"
+value="other"
+onclick="showDescription(this.value)">
+<span class="form-check-label">Other</span>
+</div>
+</label>
+
+<div id="description" style="display:none;">
+
+<label class="form-label fw-bold mb-2">Description</label>
+
+<textarea class="form-control"
+rows="4"
+placeholder="Write your reason here..."
+name="other_disc"></textarea>
+
+</div>
+
+<div class="btn-area">
+
+<button type="submit" class="btn-submit">
+Submit Report
+</button>
+
+<button type="button" class="btn-cancel" onclick="history.back()">
+Cancel
+</button>
+
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+
+</body>
+</html>

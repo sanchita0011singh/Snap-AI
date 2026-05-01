@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Edit Profile</title>
+
+{% include 'snap_app/common/common_css.html' %}
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+
+.main{
+
+background:linear-gradient(135deg,#ffffff,#eef2ff,#f8fafc);
+
+min-height:100vh;
+
+padding-top:50px;
+
+}
+
+/* title */
+
+.section-title{
+
+text-align:center;
+
+font-weight:700;
+
+font-size:36px;
+
+color:#4f46e5;
+
+margin-bottom:40px;
+
+}
+
+/* main layout */
+
+.form-container{
+
+width:1100px;
+
+margin:auto;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:100px;
+
+}
+
+/* image section */
+
+.img-section{
+
+text-align:center;
+
+}
+
+/* profile image */
+
+.img-div{
+
+width:320px;
+
+height:320px;
+
+border-radius:50%;
+
+border:6px solid #6366f1;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.1);
+
+background:white;
+
+padding:12px;
+
+margin:auto;
+
+position:relative;
+
+}
+
+.img-div::after{
+
+content:"";
+
+width:22px;
+
+height:22px;
+
+background:#22c55e;
+
+border-radius:50%;
+
+position:absolute;
+
+bottom:35px;
+
+right:35px;
+
+border:4px solid white;
+
+}
+
+.img-div img{
+
+width:100%;
+
+height:100%;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+/* file input */
+
+.file-input{
+
+margin-top:20px;
+
+width:250px;
+
+margin-left:auto;
+
+margin-right:auto;
+
+}
+
+/* form card */
+
+.content-div{
+
+width:520px;
+
+border-radius:20px;
+
+padding:40px;
+
+background:white;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+
+}
+
+/* email */
+
+.email-text{
+
+font-size:18px;
+
+font-weight:600;
+
+margin-bottom:20px;
+
+}
+
+/* inputs */
+
+.mb-3{
+
+margin-bottom:20px;
+
+}
+
+/* input */
+
+.form-control{
+
+border-radius:12px;
+
+padding:12px;
+
+border:1px solid #e5e7eb;
+
+transition:.3s;
+
+font-size:16px;
+
+}
+
+.form-control:focus{
+
+border-color:#6366f1;
+
+box-shadow:0 0 10px rgba(99,102,241,.3);
+
+}
+
+/* select */
+
+.form-select{
+
+border-radius:12px;
+
+padding:12px;
+
+}
+
+/* button */
+
+.btn-cyber{
+
+background:linear-gradient(45deg,#3b82f6,#6366f1);
+
+border:none;
+
+color:white;
+
+border-radius:30px;
+
+padding:12px;
+
+font-weight:600;
+
+font-size:17px;
+
+transition:.3s;
+
+}
+
+.btn-cyber:hover{
+
+transform:scale(1.05);
+
+background:linear-gradient(45deg,#4f46e5,#4338ca);
+
+}
+
+</style>
+
+<script>
+
+const alphaRegex=/^[A-Za-z\s]*$/;
+
+const numberRegex=/^[0-9]{0,10}$/;
+
+function checkAlpha(event){
+
+let data=event.target.value
+
+if(!alphaRegex.test(data)){
+
+event.target.value=data.replace(/[^a-zA-Z ]/g,'');
+
+Swal.fire({
+
+title:"Data Format Error🤨",
+
+text:"Alphabets Needed",
+
+icon:"error"
+
+});
+
+}
+
+}
+
+function checkDigit(event){
+
+let data=event.target.value
+
+if(!numberRegex.test(data)){
+
+event.target.value=data.replace(/[^0-9]/g,'')
+
+Swal.fire({
+
+title:"Data Format Error🤨",
+
+text:"Need 10 digit phone number",
+
+icon:"error"
+
+});
+
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+{% include 'snap_app/user/user_header.html' %}
+
+<div class="main">
+
+<h2 class="section-title">
+
+Edit Profile Details
+
+</h2>
+
+<form action="/user_edit_profile/"
+method="post"
+enctype="multipart/form-data"
+novalidate
+class="needs-validation">
+
+{% csrf_token %}
+
+<div class="form-container">
+
+<div class="img-section">
+
+<div class="img-div">
+
+<img src="/media/{{user_key.profile_pic}}">
+
+</div>
+
+<input type="file"
+name="profile_pic"
+class="form-control file-input" id="profilepic" accept="image/*">
+
+</div>
+
+<div class="content-div">
+
+<p class="email-text">
+
+Email : {{user_key.email}}
+
+</p>
+
+<div class="mb-3">
+
+<input type="text"
+name="name"
+class="form-control"
+value="{{user_key.name}}"
+required
+oninput="checkAlpha(event)">
+
+<div class="invalid-feedback">
+
+Please Enter Your Name
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<input type="text"
+name="phone"
+class="form-control"
+value="{{user_key.phone}}"
+required
+maxlength="10"
+pattern="[0-9]{10}"
+oninput="checkDigit(event)">
+
+<div class="invalid-feedback">
+
+Please Enter 10 digit phone number
+
+</div>
+
+</div>
+
+<div class="mb-3">
+
+<select class="form-select"
+name="city"
+required>
+
+<option disabled>
+
+Choose your city
+
+</option>
+
+<option {% if user_key.city == "Lucknow" %}selected{% endif %}>Lucknow</option>
+
+<option {% if user_key.city == "Varanasi" %}selected{% endif %}>Varanasi</option>
+
+<option {% if user_key.city == "Ayodhya" %}selected{% endif %}>Ayodhya</option>
+
+<option {% if user_key.city == "Sitapur" %}selected{% endif %}>Sitapur</option>
+
+<option {% if user_key.city == "Agra" %}selected{% endif %}>Agra</option>
+
+<option {% if user_key.city == "Meerut" %}selected{% endif %}>Meerut</option>
+
+</select>
+
+<div class="invalid-feedback">
+
+Please select city
+
+</div>
+
+</div>
+
+<button type="submit"
+class="btn btn-cyber w-100">
+
+Update Profile
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+<script>
+document.getElementById("profilepic").addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file) {
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/webp","image/bmp"];
+
+        if (!allowedTypes.includes(file.type)) {
+            Swal.fire({
+                title: "Wrong File Format",
+                text: "Only image files (JPG, PNG, GIF, WEBP) are allowed!",
+                icon: "error"
+            });
+
+            this.value = ""; 
+        }
+    }
+});
+</script>
+
+{% include 'snap_app/common/footer.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="{% static 'snap_app/js/custom_validation.js' %}"></script>
+
+</body>
+
+</html>

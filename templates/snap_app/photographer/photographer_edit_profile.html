@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Photographer Edit Profile</title>
+
+{% include 'snap_app/common/common_css.html' %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<style>
+
+.main{
+
+background:linear-gradient(135deg,#ffffff,#eef2ff,#f8fafc);
+min-height:100vh;
+padding-top:50px;
+
+}
+
+/* title */
+
+.section-title{
+
+text-align:center;
+font-weight:700;
+font-size:36px;
+color:#4f46e5;
+margin-bottom:40px;
+
+}
+
+/* layout */
+
+.form-container{
+
+width:1100px;
+margin:auto;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:100px;
+
+}
+
+/* image */
+
+.img-section{
+
+text-align:center;
+
+}
+
+.img-div{
+
+width:320px;
+height:320px;
+border-radius:50%;
+border:6px solid #6366f1;
+box-shadow:0 20px 40px rgba(0,0,0,0.1);
+background:white;
+padding:12px;
+margin:auto;
+position:relative;
+
+}
+
+.img-div img{
+
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+
+}
+
+/* file */
+
+.file-input{
+
+margin-top:20px;
+width:250px;
+margin-left:auto;
+margin-right:auto;
+
+}
+
+/* form */
+
+.conatin-div{
+
+width:520px;
+border-radius:20px;
+padding:40px;
+background:white;
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+
+}
+
+.email-text{
+
+font-size:18px;
+font-weight:600;
+margin-bottom:20px;
+
+}
+
+/* inputs */
+
+.mb-3{
+
+margin-bottom:20px;
+
+}
+
+.form-control{
+
+border-radius:12px;
+padding:12px;
+border:1px solid #e5e7eb;
+transition:.3s;
+font-size:16px;
+
+}
+
+.form-control:focus{
+
+border-color:#6366f1;
+box-shadow:0 0 10px rgba(99,102,241,.3);
+
+}
+
+/* button */
+
+.btn-cyber{
+
+background:linear-gradient(45deg,#3b82f6,#6366f1);
+border:none;
+color:white;
+border-radius:30px;
+padding:12px;
+font-weight:600;
+font-size:17px;
+transition:.3s;
+width:100%;
+
+}
+
+.btn-cyber:hover{
+
+transform:scale(1.05);
+background:linear-gradient(45deg,#4f46e5,#4338ca);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+{% include 'snap_app/photographer/photographer_header.html' %}
+
+<div class="main">
+
+<h2 class="section-title">
+
+Edit Profile Details
+
+</h2>
+
+<form action="/p_edit_profile/"
+method="post"
+enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<div class="form-container">
+
+<div class="img-section">
+
+<div class="img-div">
+
+<img src="/media/{{photo_key.profile_pic}}">
+
+</div>
+
+<input type="file"
+name="profile_pic"
+class="form-control file-input" accept="image/*" id="profilepic">
+
+</div>
+
+<div class="conatin-div">
+
+<p class="email-text">
+
+Email : {{photo_key.email}}
+
+</p>
+
+<div class="mb-3">
+
+<input type="text"
+name="name"
+class="form-control"
+value="{{photo_key.name}}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<input type="text"
+name="phone"
+class="form-control"
+value="{{photo_key.phone}}"
+required>
+
+</div>
+
+<div class="mb-3">
+
+<input type="text"
+name="city"
+class="form-control"
+value="{{photo_key.city}}"
+required>
+
+</div>
+
+<button type="submit"
+class="btn btn-cyber">
+
+Update Profile
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+<script>
+document.getElementById("profilepic").addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file) {
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/webp","image/bmp"];
+
+        if (!allowedTypes.includes(file.type)) {
+            Swal.fire({
+                title: "Wrong File Format",
+                text: "Only image files (JPG, PNG, GIF, WEBP) are allowed!",
+                icon: "error"
+            });
+
+            this.value = ""; 
+        }
+    }
+});
+</script>
+
+{% include 'snap_app/common/footer.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

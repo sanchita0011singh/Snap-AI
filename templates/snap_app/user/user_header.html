@@ -1,0 +1,179 @@
+<nav class="navbar navbar-dark fixed-top shadow nav-custom">
+
+<div class="container-fluid">
+
+<!-- Toggle Button -->
+<button class="navbar-toggler custom-toggler"
+type="button"
+data-bs-toggle="offcanvas"
+data-bs-target="#offcanvasDarkNavbar">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<!-- Sidebar LEFT Open -->
+<div class="offcanvas offcanvas-start custom-offcanvas"
+data-bs-backdrop="false"
+tabindex="-1"
+id="offcanvasDarkNavbar">
+
+<!-- Header -->
+<div class="offcanvas-header border-bottom">
+
+<h5 class="offcanvas-title text-white fw-bold">
+<i class="fa-solid fa-user-circle me-2"></i>
+Hello User
+</h5>
+
+<button type="button"
+class="btn-close btn-close-white"
+data-bs-dismiss="offcanvas">
+</button>
+
+</div>
+
+<!-- Body -->
+<div class="offcanvas-body">
+
+<ul class="navbar-nav flex-grow-1 pe-3 menu-list">
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/user_home/">
+<i class="fa-solid fa-house me-2"></i>
+Home
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/contact/">
+<i class="fa-solid fa-comment-dots me-2"></i>
+Contact
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/user_feedback/">
+<i class="fa-solid fa-star me-2"></i>
+Feedback
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/user_edit_profile/">
+<i class="fa-solid fa-user-pen me-2"></i>
+Edit Profile
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/find_photographer/">
+<i class="fa-solid fa-camera me-2"></i>
+Find Photographer
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/search_photo/">
+<i class="fa-solid fa-image me-2"></i>
+Search Photo
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link menu-item" href="/reset_password/">
+<i class="fa-solid fa-key me-2"></i>
+Reset Password
+</a>
+</li>
+
+<li class="nav-item mt-3">
+<a class="nav-link logout-btn" href="/user_logout/">
+<i class="fa-solid fa-right-from-bracket me-2"></i>
+Logout
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+<style>
+
+/* NAVBAR */
+.nav-custom{
+background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed);
+padding:10px 0;
+box-shadow:0 8px 25px rgba(37,99,235,.25);
+}
+
+/* TOGGLE BUTTON */
+.custom-toggler{
+border:none;
+outline:none;
+}
+
+/* SIDEBAR */
+.custom-offcanvas{
+background:linear-gradient(135deg,#2563eb,#4f46e5,#7c3aed);
+width:300px;
+box-shadow:10px 0 30px rgba(0,0,0,.2);
+}
+
+/* HEADER */
+.offcanvas-header{
+border-color:rgba(255,255,255,.2) !important;
+}
+
+/* MENU ITEMS */
+.menu-item{
+color:white;
+padding:13px 15px;
+border-radius:12px;
+font-size:16px;
+display:flex;
+align-items:center;
+transition:.3s;
+font-weight:500;
+}
+
+.menu-item i{
+font-size:18px;
+}
+
+/* HOVER */
+.menu-item:hover{
+background:rgba(255,255,255,.18);
+transform:translateX(6px);
+color:#fff;
+}
+
+/* LOGOUT */
+.logout-btn{
+background:linear-gradient(90deg,#ef4444,#dc2626);
+color:white;
+border-radius:12px;
+padding:13px;
+text-align:center;
+font-weight:600;
+transition:.3s;
+}
+
+.logout-btn:hover{
+background:linear-gradient(90deg,#dc2626,#b91c1c);
+transform:scale(1.03);
+color:#fff;
+}
+
+/* SPACING */
+.menu-list li{
+margin-bottom:10px;
+}
+
+</style>
